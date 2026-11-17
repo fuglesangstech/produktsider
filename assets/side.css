@@ -91,6 +91,12 @@ td.q a { font-weight: 600; font-size: 15px; }
 .flere b { display: block; color: var(--navy); }
 .flere small { color: var(--muted); font-size: 14px; }
 
+/* spørsmål og svar */
+.faq { max-width: 820px; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; padding: 14px 0; font-weight: 600; font-size: 18px; color: var(--ink); }
+.faq details p { padding: 0 0 16px; }
+
 /* oversikt */
 .ovs h2 small { font-family: "Barlow", sans-serif; font-size: 15px; font-weight: 500; color: var(--muted); margin-left: 8px; }
 .ovs h3 { font-size: 14px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-top: 24px; }

@@ -1,0 +1,34 @@
+{
+ "785": {
+  "faq": [
+   [
+    "Hva brukes 785 monteringspasta til?",
+    "På bolter, skruer, pinnebolter, rørgjenger og pasninger, slik at de er lette å skru fra hverandre igjen – også etter lang tid i høy temperatur. Pastaen beskytter mot korrosjon, og tåler demontering opp til 1204 °C."
+   ],
+   [
+    "Hva er forskjellen på 785 og 785 FG?",
+    "785 FG er registrert som NSF H1 og kan brukes der det kan bli tilfeldig kontakt med næringsmidler. 785 er registrert som NSF H2, for bruk der det ikke er mulig med kontakt med næringsmidler. Begge tåler demontering opp til 1204 °C."
+   ],
+   [
+    "Må tiltrekkingsmomentet beregnes på nytt?",
+    "Nei. Ifølge Chesterton trenger tiltrekkingsmomentet ikke beregnes på nytt når du bruker 785."
+   ]
+  ]
+ },
+ "785-fg": {
+  "faq": [
+   [
+    "Er 785 FG matvaregodkjent?",
+    "Ja. 785 FG er registrert som NSF H1 og kan brukes der det kan bli tilfeldig kontakt med næringsmidler, for eksempel i næringsmiddel- og drikkevareindustrien. NSF-sertifikatet ligger under datablad og sertifikater."
+   ],
+   [
+    "Hva er forskjellen på 785 FG og 785?",
+    "785 FG er NSF H1. Vanlig 785 er NSF H2, for bruk der det ikke er mulig med kontakt med næringsmidler, og finnes også på spray og i større emballasje. Begge tåler demontering opp til 1204 °C."
+   ],
+   [
+    "Må tiltrekkingsmomentet beregnes på nytt?",
+    "Nei. Ifølge Chesterton trenger tiltrekkingsmomentet ikke beregnes på nytt når du bruker 785 FG."
+   ]
+  ]
+ }
+}

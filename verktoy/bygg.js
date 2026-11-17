@@ -28,7 +28,9 @@ const IDAG = new Date().toISOString().slice(0, 10);
 const P = DATA.produkter, LEV = {}, BYID = {};
 DATA.leverandorer.forEach(l => { LEV[l.key] = l; });
 P.forEach(p => { BYID[p.id] = p; });
-const EGNE = DATA.egneSider || {};
+const EGNE = {};   // alle produkter har sin side her (også de mest populære)
+// Ekstra innhold for utvalgte produkter (spørsmål og svar m.m.), i data/tillegg.json – redigeres for hånd
+const TILLEGG = fs.existsSync(path.join(ROT, 'data', 'tillegg.json')) ? JSON.parse(fs.readFileSync(path.join(ROT, 'data', 'tillegg.json'), 'utf8')) : {};
 
 /* ---------- hjelpere ---------- */
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -118,6 +120,8 @@ function produktside(p) {
   const ut = p.utgatt ? `<div class="utg" role="note"><b>Utgår</b><p>${esc(p.utgatt.tekst)}</p>${p.utgatt.alt.length ? '<p>Vi anbefaler i stedet:</p><ul>' + p.utgatt.alt.map(a => `<li><a href="${rel}${encodeURIComponent(a.id)}/">${esc(BYID[a.id] ? merke(BYID[a.id]) : a.navn)}</a>${a.hvorfor ? ' – ' + esc(a.hvorfor.charAt(0).toLowerCase() + a.hvorfor.slice(1)) : ''}</li>`).join('') + '</ul>' : ''}${p.utgatt.merknad ? `<small>${esc(p.utgatt.merknad)}</small>` : ''}</div>` : '';
   const k = p.kontakt;
   const kontakt = k ? `<section class="sec kontakt">${k.bilde ? `<img src="${esc(BILDE_CDN + k.bilde)}?format=200w" alt="" width="72" height="72" loading="lazy">` : ''}<div><b>${esc(k.navn)}</b>${esc([k.tittel, k.omr].filter(Boolean).join(', '))}<br>${k.tlf ? `<a href="tel:${esc(k.tlf.replace(/\s/g, ''))}">${esc(k.tlf)}</a>` : ''}${k.tlf && k.epost ? ' · ' : ''}${k.epost ? `<a href="mailto:${esc(k.epost)}">${esc(k.epost)}</a>` : ''}</div><a class="btn light" href="${esc(tilbud(p, null))}">Be om tilbud</a></section>` : '';
+  const T = TILLEGG[p.id] || {};
+  const faq = (T.faq || []).length ? `<section class="sec"><h2>Spørsmål og svar</h2><div class="faq">${T.faq.map(f => `<details><summary>${esc(f[0])}</summary><p>${esc(f[1])}</p></details>`).join('')}</div></section>` : '';
   const egen = EGNE[p.id] ? `<p class="egen">Les mer om ${esc(navn)} – bruk, forskjeller og spørsmål – på <a href="${WWW}${esc(EGNE[p.id])}">fuglesangstech.no</a>.</p>` : '';
   const bilder = p.bilder || [];
   const galleri = bilder.length ? `<div class="gal"><div class="hoved"><img id="gal-img" src="${esc(bilder[0])}" alt="${esc(navn)}" width="560" height="560"></div>${bilder.length > 1 ? `<div class="tn">${bilder.map((b, i) => `<button type="button" data-src="${esc(b)}"${i ? '' : ' aria-current="true"'}><img src="${esc(b)}" alt="" width="72" height="72" loading="lazy"></button>`).join('')}</div>` : ''}</div>` : '<div class="gal tom"></div>';
@@ -130,6 +134,7 @@ function produktside(p) {
       { '@type': 'ListItem', position: 3, name: l.navn, item: BASE + '#' + p.sup },
       { '@type': 'ListItem', position: 4, name: navn, item: sideUrl(p) }] }
   ];
+  if ((T.faq || []).length) ld.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: T.faq.map(f => ({ '@type': 'Question', name: f[0], acceptedAnswer: { '@type': 'Answer', text: f[1] } })) });
   const innhold = `
 <p class="crumb"><a href="${WWW}/">Forside</a> / <a href="${rel}">Produkter</a> / <a href="${esc(levUrl(p))}">${esc(l.navn)}</a> / <a href="${esc(katUrl(p))}">${esc(p.kat)}</a></p>
 <article class="prod">
@@ -150,6 +155,7 @@ function produktside(p) {
 </article>
 ${vt}
 ${docs ? `<section class="sec"><h2>Datablad og sertifikater</h2>${docs}<p class="note">Alle datablad finner du også i <a href="${WWW}/datablad">databladoversikten</a>, der du kan lage stoffkartotek.</p></section>` : ''}
+${faq}
 ${resHtml}
 <section class="sec"><h2>Leverandør</h2><p>${esc(l.navn)}. ${esc(l.sole)} ${l.side ? `<a href="${WWW}${esc(l.side)}">Les mer om ${esc(l.kort || l.navn)}</a>` : ''}</p></section>
 ${kontakt}
