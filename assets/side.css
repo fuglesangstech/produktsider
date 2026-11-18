@@ -17,11 +17,11 @@ img { max-width: 100%; display: block; }
 html.hd-skjult .hd { transform: translateY(-100%); box-shadow: none; }
 html.hd-apen .hd { transform: none; }
 .hd .logo img { width: 255px; height: auto; }
-.hd-nav { display: flex; align-items: center; gap: 19px; margin-left: 6.7vw; flex: 1; }
+.hd-nav { display: flex; align-items: center; gap: 1.5vw; margin-left: 6.7vw; flex: 1; }
 .hd-nav > a, .hd-folder > button { font: 400 19px/1.2 Arial, Helvetica, sans-serif; letter-spacing: -.02em; color: #083067; text-decoration: none; padding: 1.9px 0; background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
 .hd-nav > a:hover, .hd-folder > button:hover { opacity: .8; }
 .hd-folder { position: relative; }
-.hd-folder svg { width: 20px; height: 20px; transform: rotate(180deg); transition: transform .15s; }
+.hd-folder svg { width: 17px; height: 17px; transform: rotate(180deg); transition: transform .15s; }
 .hd-folder.open svg, .hd-folder:hover svg { transform: none; }
 .hd-dd { position: absolute; left: -20px; top: 100%; min-width: 238px; padding: 6px 20px 18px; background: #fff; display: none; flex-direction: column; gap: 6px; }
 .hd-folder:hover .hd-dd, .hd-folder.open .hd-dd { display: flex; }
