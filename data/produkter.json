@@ -47963,23 +47963,27 @@
    ]
   },
   {
-   "id": "ft-digitalt-mikroskop",
+   "id": "ft-handholdt-mikroskop",
    "sup": "ft",
    "supNavn": "Fuglesangs Tech",
    "grp": "Inspeksjonsutstyr",
    "kat": "Digitale mikroskop",
-   "code": "WTM-W1-A",
-   "navn": "Digitalt WiFi-mikroskop",
-   "tagline": "Trådløst digitalt mikroskop med 50–1000× forstørrelse, Full HD-kamera og 8 LED-lys. Bildet vises direkte på mobil, nettbrett eller PC.",
-   "short": "Trådløst digitalt mikroskop med 50–1000× forstørrelse, Full HD-kamera og 8 LED-lys. Bildet vises direkte på mobil, nettbrett eller PC.",
+   "code": "70169",
+   "navn": "Håndholdt Mikroskop",
+   "tagline": "Håndholdt digitalt mikroskop med 50–1000× forstørrelse, Full HD-kamera og 8 LED-lys. Bildet vises direkte på mobil, nettbrett eller PC.",
+   "short": "Håndholdt digitalt mikroskop med 50–1000× forstørrelse, Full HD-kamera og 8 LED-lys. Bildet vises direkte på mobil, nettbrett eller PC.",
    "img": "https://fuglesangstech.github.io/fuglesangstech-datablad/ft/bilder/mikroskop-skra.webp",
    "href": "",
    "paras": [
-    "Digitalt mikroskop for raske inspeksjoner på verksted og i felt. Mikroskopet lager sitt eget WiFi-nettverk, så bildet vises direkte i en app på mobil eller nettbrett. Med USB-kabel kan det også kobles til PC.",
+    "Håndholdt digitalt mikroskop for raske inspeksjoner på verksted og i felt. Mikroskopet lager sitt eget WiFi-nettverk, så bildet vises direkte i en app på mobil eller nettbrett. Med USB-kabel kan det også kobles til PC.",
     "Forstørrelsen går fra 50 til 1000 ganger, og bildet stilles skarpt med fokushjulet. Åtte LED-lys rundt linsen har justerbar lysstyrke. I appen kan du ta bilder og video, lagre dem på telefonen og legge til notater.",
     "Stativet kan vinkles og justeres i høyden, og foten står stødig med sklisikker silikonbunn. Mikroskopet lades med USB-C og har innebygd batteri."
    ],
    "spec": [
+    [
+     "Varenummer",
+     "70169"
+    ],
     [
      "Modell",
      "WTM-W1-A"
