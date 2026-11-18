@@ -24,6 +24,12 @@ const LOGO = 'https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6
 const FAVICON = 'https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6185b/6924ef89-fabb-41f0-8c35-1c6046bd6093/favicon.ico';
 const BILDE_CDN = 'https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6185b/';
 const IDAG = new Date().toISOString().slice(0, 10);
+const CSS = fs.readFileSync(path.join(__dirname, 'side.css'), 'utf8');
+const CSSV = require('crypto').createHash('md5').update(CSS).digest('hex').slice(0, 8);   // endres bare når stilen endres
+// lastmod i sitemap: behold forrige dato for sider som ikke er endret (så Google ser hva som faktisk er nytt)
+const FORRIGE = {};
+try { fs.readFileSync(path.join(ROT, 'sitemap.xml'), 'utf8').replace(/<loc>([^<]+)<\/loc><lastmod>([^<]+)<\/lastmod>/g, (m, u, d) => { FORRIGE[u] = d; }); } catch (e) {}
+const LASTMOD = {};
 
 const P = DATA.produkter, LEV = {}, BYID = {};
 DATA.leverandorer.forEach(l => { LEV[l.key] = l; });
@@ -74,7 +80,7 @@ ${o.bilde ? `<meta property="og:image" content="${esc(o.bilde)}">` : ''}
 <link rel="icon" href="${FAVICON}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="${o.rel}assets/side.css?v=${IDAG}">
+<link rel="stylesheet" href="${o.rel}assets/side.css?v=${CSSV}">
 ${(o.ld || []).map(x => `<script type="application/ld+json">${JSON.stringify(x).replace(/</g, '\\u003c')}</script>`).join('\n')}
 </head>
 <body>
@@ -192,18 +198,24 @@ ${grupper.map(l => {
 }
 
 /* ---------- skriv filer ---------- */
-function skriv(rel, innhold) { const f = path.join(ROT, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, innhold); }
+let endret = 0;
+function skriv(rel, innhold) {
+  const f = path.join(ROT, rel); fs.mkdirSync(path.dirname(f), { recursive: true });
+  let gml = null; try { gml = fs.readFileSync(f, 'utf8'); } catch (e) {}
+  if (gml === innhold) return false;
+  fs.writeFileSync(f, innhold); endret++; return true;
+}
 // fjern sider for produkter som ikke lenger finnes (mapper med index.html som ikke er en kjent produkt-id)
 const BEHOLD = new Set(['assets', 'data', 'verktoy', '.git', '.github', 'node_modules']);
 fs.readdirSync(ROT, { withFileTypes: true }).forEach(d => {
   if (d.isDirectory() && !BEHOLD.has(d.name) && !BYID[d.name] && fs.existsSync(path.join(ROT, d.name, 'index.html'))) fs.rmSync(path.join(ROT, d.name), { recursive: true });
 });
-P.forEach(p => skriv(p.id + '/index.html', produktside(p)));
-skriv('index.html', oversikt());
+P.forEach(p => { const ny = skriv(p.id + '/index.html', produktside(p)); const u = sideUrl(p); LASTMOD[u] = ny || !FORRIGE[u] ? IDAG : FORRIGE[u]; });
+LASTMOD[BASE] = skriv('index.html', oversikt()) || !FORRIGE[BASE] ? IDAG : FORRIGE[BASE];
 skriv('404.html', ramme({ tittel: 'Fant ikke siden | Fuglesangs Tech', beskr: 'Siden finnes ikke.', rel: '/', noindex: true, innhold: `<h1>Fant ikke produktet</h1><p class="lead">Produktet kan ha fått ny adresse eller er tatt ut av sortimentet.</p><div class="cta"><a class="btn" href="${WWW}/produkter">Gå til produktkatalogen</a><a class="btn alt" href="/">Alle produkter</a></div>` }));
-skriv('assets/side.css', fs.readFileSync(path.join(__dirname, 'side.css'), 'utf8'));
+skriv('assets/side.css', CSS);
 const urls = [BASE].concat(P.filter(p => !EGNE[p.id]).map(sideUrl));
-skriv('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => `<url><loc>${esc(u)}</loc><lastmod>${IDAG}</lastmod></url>`).join('\n') + '\n</urlset>\n');
+skriv('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => `<url><loc>${esc(u)}</loc><lastmod>${LASTMOD[u] || IDAG}</lastmod></url>`).join('\n') + '\n</urlset>\n');
 skriv('robots.txt', PROD ? `User-agent: *\nAllow: /\n\nSitemap: ${BASE}sitemap.xml\n` : 'User-agent: *\nDisallow: /\n');
 skriv('.nojekyll', '');
-console.log(`Bygget ${P.length} produktsider (${PROD ? 'for ' + CNAME : 'forhåndsvisning, noindex'}).`);
+console.log(`Bygget ${P.length} produktsider (${PROD ? 'for ' + CNAME : 'forhåndsvisning, noindex'}). Endrede filer: ${endret}.`);

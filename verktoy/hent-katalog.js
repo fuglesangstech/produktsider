@@ -51,6 +51,13 @@ function splice(live, NEW) {   // bytt ut kodeblokken på siden med lokal kode (
   });
   await b.close();
   const ut = path.join(__dirname, '..', 'data', 'produkter.json');
+  // vern: hvis katalogen plutselig har langt færre produkter (feil på /produkter), behold forrige versjon
+  let forrige = 0; try { forrige = JSON.parse(fs.readFileSync(ut, 'utf8')).produkter.length; } catch (e) {}
+  if (forrige && data.produkter.length < forrige * 0.9 && !process.env.TVING) {
+    console.error(`STOPP: katalogen har ${data.produkter.length} produkter, forrige gang ${forrige}. Ingenting er endret. Sjekk /produkter, eller kjør med TVING=1 hvis nedgangen er riktig.`);
+    process.exit(2);
+  }
+  data.hentet = data.hentet.slice(0, 10);
   fs.writeFileSync(ut, JSON.stringify(data, null, 1));
   console.log('Hentet ' + data.produkter.length + ' produkter → ' + ut);
 })().catch(e => { console.error('FEIL:', e.message); process.exit(1); });
