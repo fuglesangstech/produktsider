@@ -217,7 +217,10 @@ ${flere.length ? `<section class="sec"><h2>Flere produkter i ${esc(p.kat.toLower
   });
 })();
 </script>`;
-  const tt = (navn + ' – ' + p.kat).length <= 58 ? navn + ' – ' + p.kat : kutt(navn, 58);
+  // produktnummeret i tittelen når navnet ikke har det (folk søker på nummer, og like navn hos LE skilles)
+  const kode = (p.code || '').split(',').map(x => x.trim()).filter(Boolean);
+  const tn = kode.length === 1 && kode[0].length <= 8 && !navn.includes(kode[0]) ? navn + ' ' + kode[0] : navn;
+  const tt = (tn + ' – ' + p.kat).length <= 58 ? tn + ' – ' + p.kat : kutt(tn, 58);
   return ramme({ tittel: tt + ' | Fuglesangs Tech', ogTittel: navn, beskr, kanon: kanonisk(p), bilde: bilder[0], ld, rel, innhold, ogType: 'product' });
 }
 
