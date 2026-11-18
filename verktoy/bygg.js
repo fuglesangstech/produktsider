@@ -256,7 +256,7 @@ fs.readdirSync(ROT, { withFileTypes: true }).forEach(d => {
 });
 P.forEach(p => { const ny = skriv(p.id + '/index.html', produktside(p)); const u = sideUrl(p); LASTMOD[u] = ny || !FORRIGE[u] ? IDAG : FORRIGE[u]; });
 LASTMOD[BASE] = skriv('index.html', oversikt()) || !FORRIGE[BASE] ? IDAG : FORRIGE[BASE];
-skriv('404.html', ramme({ tittel: 'Fant ikke siden | Fuglesangs Tech', beskr: 'Siden finnes ikke.', rel: '/', noindex: true, innhold: `<h1>Fant ikke produktet</h1><p class="lead">Produktet kan ha fått ny adresse eller er tatt ut av sortimentet.</p><div class="cta"><a class="btn" href="${WWW}/produkter">Gå til produktkatalogen</a><a class="btn alt" href="/">Alle produkter</a></div>` }));
+skriv('404.html', ramme({ tittel: 'Fant ikke siden | Fuglesangs Tech', beskr: 'Siden finnes ikke.', rel: '/', noindex: true, innhold: `<h1>Fant ikke produktet</h1><p class="lead">Produktet kan ha fått ny adresse eller er tatt ut av sortimentet.</p><div class="cta"><a class="btn" href="${WWW}/produkter">Gå til produktkatalogen</a><a class="btn alt" href="/">Alle produkter</a></div><script>/* Nytt produkt som ikke har fått egen side ennå (sidene bygges hver uke): vis det i katalogen på www */(function(){var m=location.pathname.match(/^\\/([a-z0-9][a-z0-9-]*)\\/?$/i);if(m)location.replace("${WWW}/produkter#"+m[1].toLowerCase());})();</script>` }));
 skriv('assets/side.css', CSS);
 skriv('assets/ramme.js', RAMME_JS);
 // søkeindeks i samme format som søket på www: [id, navn, leverandør, kategori, bilde, beskrivelse, lenke, egenskaper]
