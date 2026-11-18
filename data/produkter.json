@@ -47961,6 +47961,105 @@
      "sprak": "EN"
     }
    ]
+  },
+  {
+   "id": "ft-digitalt-mikroskop",
+   "sup": "ft",
+   "supNavn": "Fuglesangs Tech",
+   "grp": "Inspeksjonsutstyr",
+   "kat": "Digitale mikroskop",
+   "code": "WTM-W1-A",
+   "navn": "Digitalt WiFi-mikroskop",
+   "tagline": "Trådløst digitalt mikroskop med 50–1000× forstørrelse, Full HD-kamera og 8 LED-lys. Bildet vises direkte på mobil, nettbrett eller PC.",
+   "short": "Trådløst digitalt mikroskop med 50–1000× forstørrelse, Full HD-kamera og 8 LED-lys. Bildet vises direkte på mobil, nettbrett eller PC.",
+   "img": "https://fuglesangstech.github.io/fuglesangstech-datablad/ft/bilder/mikroskop-skra.webp",
+   "href": "",
+   "paras": [
+    "Digitalt mikroskop for raske inspeksjoner på verksted og i felt. Mikroskopet lager sitt eget WiFi-nettverk, så bildet vises direkte i en app på mobil eller nettbrett. Med USB-kabel kan det også kobles til PC.",
+    "Forstørrelsen går fra 50 til 1000 ganger, og bildet stilles skarpt med fokushjulet. Åtte LED-lys rundt linsen har justerbar lysstyrke. I appen kan du ta bilder og video, lagre dem på telefonen og legge til notater.",
+    "Stativet kan vinkles og justeres i høyden, og foten står stødig med sklisikker silikonbunn. Mikroskopet lades med USB-C og har innebygd batteri."
+   ],
+   "spec": [
+    [
+     "Modell",
+     "WTM-W1-A"
+    ],
+    [
+     "Forstørrelse",
+     "50–1000×"
+    ],
+    [
+     "Oppløsning",
+     "1920 × 1080 (Full HD)"
+    ],
+    [
+     "Fokus",
+     "Manuelt, med fokushjul"
+    ],
+    [
+     "Lys",
+     "8 LED-lys med justerbar lysstyrke"
+    ],
+    [
+     "Tilkobling",
+     "WiFi (eget nettverk) og USB"
+    ],
+    [
+     "Lading",
+     "USB-C, ladetid ca. 1,5 time"
+    ],
+    [
+     "Batteri",
+     "700 mAh, ca. 2 timers bruk"
+    ],
+    [
+     "App",
+     "Android 4.0 og nyere, iOS 8.0 og nyere"
+    ],
+    [
+     "PC",
+     "Windows XP, 7, 8 og 10, macOS 10.5 og nyere"
+    ],
+    [
+     "Mål",
+     "125 mm lang, Ø 30 mm"
+    ],
+    [
+     "Stativfot",
+     "95 × 95 mm"
+    ],
+    [
+     "Farge",
+     "Hvit, med Fuglesangs Tech-logo"
+    ]
+   ],
+   "packs": [],
+   "eg": [],
+   "sds": [],
+   "pds": [],
+   "cert": [],
+   "manual": [],
+   "gradeLabel": "",
+   "noLabel": "Modell",
+   "aliases": [],
+   "bilder": [
+    "https://fuglesangstech.github.io/fuglesangstech-datablad/ft/bilder/mikroskop-skra.webp",
+    "https://fuglesangstech.github.io/fuglesangstech-datablad/ft/bilder/mikroskop-side.webp",
+    "https://fuglesangstech.github.io/fuglesangstech-datablad/ft/bilder/mikroskop-deler.webp",
+    "https://fuglesangstech.github.io/fuglesangstech-datablad/ft/bilder/mikroskop-maal.webp",
+    "https://fuglesangstech.github.io/fuglesangstech-datablad/ft/bilder/mikroskop-forfra.webp",
+    "https://fuglesangstech.github.io/fuglesangstech-datablad/ft/bilder/mikroskop-staende.webp"
+   ],
+   "varianter": [],
+   "kontakt": {
+    "navn": "Trygve K. Oen",
+    "tittel": "Driftsleder",
+    "tlf": "+47 915 42 003",
+    "epost": "toe@fuglesangstech.no",
+    "bilde": "7290c8de-f087-4bf7-8cc1-93cfb7b0df38/Trygve_Oen-removebg-preview.png",
+    "omr": "Inspeksjonsutstyr"
+   },
+   "ressurser": []
   }
  ],
  "leverandorer": [
@@ -48019,6 +48118,14 @@
    "side": "/biomax",
    "sole": "Fuglesangs Tech er eneleverandør av BioMax på land i Norge. BioMax er den miljøtilpassede serien fra Royal Purple Industrial.",
    "logo": "https://fuglesangstech.github.io/fuglesangstech-datablad/leverandorer/biomax/biomax-logo.png"
+  },
+  {
+   "key": "ft",
+   "navn": "Fuglesangs Tech",
+   "kort": "Fuglesangs Tech",
+   "side": "/om-oss",
+   "sole": "Eget produkt med Fuglesangs Tech-logo, levert og fulgt opp av oss.",
+   "logo": "https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6185b/de1bdadc-9976-4265-a30a-3d59328492f1/fuglesangs-tech-logo-transparent.png?format=300w"
   }
  ],
  "egneSider": {}
