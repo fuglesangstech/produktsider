@@ -114,6 +114,15 @@ td.q a { font-weight: 600; font-size: 15px; }
 .flere b { display: block; color: var(--navy); }
 .flere small { color: var(--muted); font-size: 14px; }
 
+/* dokumenter, plassholder for bilde */
+.flere-dok { max-width: 820px; margin-top: 8px; }
+.flere-dok > summary { cursor: pointer; font-weight: 600; color: var(--navy); padding: 6px 0; }
+.flere-dok .docs { margin-top: 8px; }
+.gal.tom .hoved { aspect-ratio: 1; display: grid; place-items: center; align-content: center; gap: 10px; }
+.gal.tom .plass { width: 46%; height: auto; }
+.gal.tom p { color: var(--muted); font-size: 15px; }
+.flere .ph svg { width: 64px; height: 64px; }
+
 /* spørsmål og svar */
 .faq { max-width: 820px; }
 .faq details { border-bottom: 1px solid var(--line); }
@@ -172,4 +181,5 @@ td.q a { font-weight: 600; font-size: 15px; }
   tr { border-bottom: 1px solid var(--line); padding: 8px 0; }
   td { border: 0; padding: 2px 0; }
   td.q { text-align: left; padding-top: 6px; }
+  td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); }
 }

@@ -124,10 +124,29 @@ ${o.innhold}
 }
 
 /* ---------- produktside ---------- */
-function dokListe(tittel, lst) {
+function dokListe(tittel, lst, kort) {
   if (!lst || !lst.length) return '';
-  return `<h3>${tittel}</h3><ul class="docs">` + lst.map(d => `<li><a href="${esc(d[2])}" target="_blank" rel="noopener"><span class="t">${esc(d[0])}</span><span class="m">PDF${SPRAK[d[1]] ? ' · ' + SPRAK[d[1]] : ''}</span></a></li>`).join('') + '</ul>';
+  // «380» alene sier lite – vis «Sikkerhetsdatablad 380»
+  const navn = d => /^[\d\s()A-Z.\-–,/]+$/.test(d[0]) && !/^(SDS|PDS)\b/.test(d[0]) ? kort + ' ' + d[0] : d[0];
+  const li = d => `<li><a href="${esc(d[2])}" target="_blank" rel="noopener"><span class="t">${esc(navn(d))}</span><span class="m">PDF${SPRAK[d[1]] ? ' · ' + SPRAK[d[1]] : ''}</span></a></li>`;
+  const MAX = 6;
+  return `<h3>${tittel}</h3><ul class="docs">` + lst.slice(0, MAX).map(li).join('') + '</ul>' +
+    (lst.length > MAX ? `<details class="flere-dok"><summary>Vis alle ${lst.length}</summary><ul class="docs">${lst.slice(MAX).map(li).join('')}</ul></details>` : '');
 }
+// samme regler som katalogen på /produkter (erFett/erOlje der)
+const erFett = x => /^(Industrifett|Fett)$/.test(x.kat) || (x.gradeLabel === 'NLGI-klasse' && !/Fettpresser|Rengjøring/.test(x.kat));
+const erOlje = x => !erFett(x) && /oljer$|^Wire og kjetting$|^Åpne gir$/.test(x.kat) && !(x.packs || []).every(k => /spray/i.test(k));
+// smøreapparater som leveres fylt: hvilke smøremidler kan de fylles med (samme regel som katalogen)
+function fyllListe(p) {
+  if (!p.fettValg && !p.fyll) return '';
+  const f = p.fyll, olje = f && f.type === 'olje';
+  const l = P.filter(x => x.sup !== 'perma' && !x.utgatt && (f ? x.sup === f.lev && (olje ? erOlje(x) : erFett(x)) : erFett(x)));
+  if (!l.length) return '';
+  const grp = {}; l.forEach(x => { (grp[lev(x).navn] = grp[lev(x).navn] || []).push(x); });
+  return `<section class="sec"><h2>Fylles med ${olje ? 'olje' : 'fett'} fra ${f ? esc(lev(p).navn) : 'Fuglesangs Tech'}</h2><p class="lead2">${olje ? 'Apparatet leveres fylt med olje' : 'Apparatet leveres fylt med fett'} etter eget valg. Er du usikker, hjelper vi deg å velge riktig til bruksområdet – skriv det i forespørselen.</p>` +
+    Object.keys(grp).sort().map(k => `<h3>${esc(k)}</h3><ul class="liste">${grp[k].sort((a, b) => a.navn.localeCompare(b.navn, 'nb', { numeric: true })).map(x => `<li><a href="../${encodeURIComponent(x.id)}/">${esc(x.navn)}</a></li>`).join('')}</ul>`).join('') + '</section>';
+}
+const PLASS = '<svg class="plass" viewBox="0 0 120 120" aria-hidden="true"><rect x="1" y="1" width="118" height="118" rx="14" fill="#f3f6fb" stroke="#d6dbe2"/><path d="M48 36h24v10l6 8v34a6 6 0 0 1-6 6H48a6 6 0 0 1-6-6V54l6-8z" fill="none" stroke="#9aa9bf" stroke-width="3" stroke-linejoin="round"/><path d="M48 46h24" stroke="#9aa9bf" stroke-width="3"/></svg>';
 function produktside(p) {
   const l = lev(p), navn = merke(p), rel = '../';
   const tekst = (p.paras && p.paras.length ? p.paras : [p.short || p.tagline]).filter(Boolean);
@@ -136,11 +155,11 @@ function produktside(p) {
   const harPack = p.varianter.some(v => v.packs && v.packs.length), harDesc = p.varianter.some(v => v.desc);
   const vt = p.varianter.length ? `<section class="sec"><h2>${p.gradeLabel ? 'Varianter' : 'Emballasje og produktnummer'}</h2>${p.vintro ? `<p class="lead2">${esc(p.vintro)}</p>` : ''}
     <div class="tbl"><table><thead><tr><th>${esc(p.noLabel || 'Produktnr.')}</th>${p.gradeLabel ? `<th>${esc(p.gradeLabel)}</th>` : ''}${harDesc ? `<th>${esc(p.descLabel || 'Merknad')}</th>` : ''}${harPack ? '<th>Emballasje</th>' : ''}<th><span class="sr">Tilbud</span></th></tr></thead><tbody>` +
-    p.varianter.map(v => `<tr><td class="no">${esc(v.no || '–')}</td>${p.gradeLabel ? `<td>${esc(v.grade || '–')}</td>` : ''}${harDesc ? `<td>${esc(v.desc || '–')}</td>` : ''}${harPack ? `<td>${esc((v.packs || []).join(', ') || '–')}</td>` : ''}<td class="q"><a href="${esc(tilbud(p, multi ? v : null))}">Be om tilbud</a></td></tr>`).join('') +
+    p.varianter.map(v => `<tr><td class="no">${esc(v.no || '–')}</td>${p.gradeLabel ? `<td data-l="${esc(p.gradeLabel)}">${esc(v.grade || '–')}</td>` : ''}${harDesc ? `<td data-l="${esc(p.descLabel || 'Merknad')}">${esc(v.desc || '–')}</td>` : ''}${harPack ? `<td data-l="Emballasje">${esc((v.packs || []).join(', ') || '–')}</td>` : ''}<td class="q"><a href="${esc(tilbud(p, multi ? v : null))}">Be om tilbud</a></td></tr>`).join('') +
     '</tbody></table></div></section>' : '';
   const spec = (p.spec || []).length ? `<dl class="spec">${p.spec.map(s => `<dt>${esc(s[0])}</dt><dd>${esc(s[1])}</dd>`).join('')}${!p.varianter.length && p.packs && p.packs.length ? `<dt>Emballasje</dt><dd>${esc(p.packs.join(', '))}</dd>` : ''}</dl>` :
     (!p.varianter.length && p.packs && p.packs.length ? `<dl class="spec"><dt>Emballasje</dt><dd>${esc(p.packs.join(', '))}</dd></dl>` : '');
-  const docs = dokListe('Sikkerhetsdatablad (SDS)', p.sds) + dokListe('Produktdatablad (PDS)', p.pds) + dokListe('Bruksanvisning', p.manual) + dokListe('Sertifikater og godkjenninger', p.cert);
+  const docs = dokListe('Sikkerhetsdatablad (SDS)', p.sds, 'Sikkerhetsdatablad') + dokListe('Produktdatablad (PDS)', p.pds, 'Produktdatablad') + dokListe('Bruksanvisning', p.manual, 'Bruksanvisning') + dokListe('Sertifikater og godkjenninger', p.cert, 'Sertifikat');
   const res = (p.ressurser || []).slice(0, 8);
   const resHtml = res.length ? `<section class="sec"><h2>Case studies og fagstoff</h2><ul class="docs">${res.map(r => `<li><a href="${esc(r.url)}"${/^https:\/\/www\.fuglesangstech\.no\//.test(r.url) ? '' : ' target="_blank" rel="noopener"'}><span class="t">${esc(r.navn)}</span><span class="m">${esc([r.gruppe, r.sprak].filter(Boolean).join(' · '))}</span></a></li>`).join('')}</ul></section>` : '';
   const flere = P.filter(x => x.id !== p.id && x.sup === p.sup && x.kat === p.kat && !x.utgatt).slice(0, 8);
@@ -151,10 +170,10 @@ function produktside(p) {
   const faq = (T.faq || []).length ? `<section class="sec"><h2>Spørsmål og svar</h2><div class="faq">${T.faq.map(f => `<details><summary>${esc(f[0])}</summary><p>${esc(f[1])}</p></details>`).join('')}</div></section>` : '';
   const egen = EGNE[p.id] ? `<p class="egen">Les mer om ${esc(navn)} – bruk, forskjeller og spørsmål – på <a href="${WWW}${esc(EGNE[p.id])}">fuglesangstech.no</a>.</p>` : '';
   const bilder = p.bilder || [];
-  const galleri = bilder.length ? `<div class="gal"><div class="hoved"><img id="gal-img" src="${esc(bilder[0])}" alt="${esc(navn)}" width="560" height="560"></div>${bilder.length > 1 ? `<div class="tn">${bilder.map((b, i) => `<button type="button" data-src="${esc(b)}"${i ? '' : ' aria-current="true"'}><img src="${esc(b)}" alt="" width="72" height="72" loading="lazy"></button>`).join('')}</div>` : ''}</div>` : '<div class="gal tom"></div>';
+  const galleri = bilder.length ? `<div class="gal"><div class="hoved"><img id="gal-img" src="${esc(bilder[0])}" alt="${esc(navn)}" width="560" height="560"></div>${bilder.length > 1 ? `<div class="tn">${bilder.map((b, i) => `<button type="button" data-src="${esc(b)}"${i ? '' : ' aria-current="true"'}><img src="${esc(b)}" alt="" width="72" height="72" loading="lazy"></button>`).join('')}</div>` : ''}</div>` : `<div class="gal tom"><div class="hoved">${PLASS}<p>Bilde kommer</p></div></div>`;
   const beskr = kutt(`${navn}: ${tekst[0] || p.kat}`, 158);
   const ld = [
-    { '@context': 'https://schema.org', '@type': 'Product', name: navn, sku: p.code || undefined, mpn: p.code || undefined, brand: { '@type': 'Brand', name: l.navn }, image: bilder.length ? bilder : undefined, description: tekst.join(' '), category: p.kat, url: kanonisk(p) },
+    // Ingen Product-data: Google krever pris eller omtaler for produktutdrag, og uten dem melder Search Console feil på alle sidene.
     { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Fuglesangs Tech', item: WWW + '/' },
       { '@type': 'ListItem', position: 2, name: 'Produkter', item: BASE },
@@ -184,9 +203,10 @@ ${vt}
 ${docs ? `<section class="sec"><h2>Datablad og sertifikater</h2>${docs}<p class="note">Alle datablad finner du også i <a href="${WWW}/datablad">databladoversikten</a>, der du kan lage stoffkartotek.</p></section>` : ''}
 ${faq}
 ${resHtml}
-<section class="sec"><h2>Leverandør</h2><p>${esc(l.navn)}. ${esc(l.sole)} ${l.side ? `<a href="${WWW}${esc(l.side)}">Les mer om ${esc(l.kort || l.navn)}</a>` : ''}</p></section>
+${fyllListe(p)}
+<section class="sec"><h2>Om ${esc(l.navn)}</h2><p>${esc(l.sole)} ${l.side ? `<a href="${WWW}${esc(l.side)}">Les mer om ${esc(l.kort || l.navn)} →</a>` : ''}</p></section>
 ${kontakt}
-${flere.length ? `<section class="sec"><h2>Flere produkter i ${esc(p.kat.toLowerCase())}</h2><ul class="flere">${flere.map(x => `<li><a href="${rel}${encodeURIComponent(x.id)}/">${x.bilder && x.bilder[0] ? `<img src="${esc(x.bilder[0])}" alt="" width="64" height="64" loading="lazy">` : '<span class="ph"></span>'}<span><b>${esc(merke(x))}</b><small>${esc(kutt(x.short || (x.paras || [])[0] || '', 90))}</small></span></a></li>`).join('')}</ul></section>` : ''}
+${flere.length ? `<section class="sec"><h2>Flere produkter i ${esc(p.kat.toLowerCase())}</h2><ul class="flere">${flere.map(x => `<li><a href="${rel}${encodeURIComponent(x.id)}/">${x.bilder && x.bilder[0] ? `<img src="${esc(x.bilder[0])}" alt="" width="64" height="64" loading="lazy">` : `<span class="ph">${PLASS}</span>`}<span><b>${esc(merke(x))}</b><small>${esc(kutt(x.short || (x.paras || [])[0] || '', 90))}</small></span></a></li>`).join('')}</ul></section>` : ''}
 <script>
 (function () {
   var g = document.querySelector('.gal .tn'); if (!g) return;
