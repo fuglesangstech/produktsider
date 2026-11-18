@@ -25,11 +25,13 @@ const FAVICON = 'https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e2
 const BILDE_CDN = 'https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6185b/';
 const IDAG = new Date().toISOString().slice(0, 10);
 const CSS = fs.readFileSync(path.join(__dirname, 'side.css'), 'utf8');
-const CSSV = require('crypto').createHash('md5').update(CSS).digest('hex').slice(0, 8);   // endres bare når stilen endres
+const CSSV = require('crypto').createHash('md5').update(CSS + fs.readFileSync(path.join(__dirname, 'ramme.js'), 'utf8')).digest('hex').slice(0, 8);   // endres bare når stilen endres
 // lastmod i sitemap: behold forrige dato for sider som ikke er endret (så Google ser hva som faktisk er nytt)
 const FORRIGE = {};
 try { fs.readFileSync(path.join(ROT, 'sitemap.xml'), 'utf8').replace(/<loc>([^<]+)<\/loc><lastmod>([^<]+)<\/lastmod>/g, (m, u, d) => { FORRIGE[u] = d; }); } catch (e) {}
 const LASTMOD = {};
+const SOK_IKON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>';
+const RAMME_JS = fs.readFileSync(path.join(__dirname, 'ramme.js'), 'utf8');
 
 const P = DATA.produkter, LEV = {}, BYID = {};
 DATA.leverandorer.forEach(l => { LEV[l.key] = l; });
@@ -85,18 +87,37 @@ ${(o.ld || []).map(x => `<script type="application/ld+json">${JSON.stringify(x).
 </head>
 <body>
 ${PROD ? '' : '<div class="fv">Forhåndsvisning – ikke synlig i Google ennå</div>'}
-<header class="hd"><div class="wrap">
-  <a class="logo" href="${WWW}/"><img src="${LOGO}" alt="Fuglesangs Tech" width="250" height="68"></a>
-  <nav aria-label="Hovedmeny"><a href="${WWW}/produkter">Produkter</a><a href="${WWW}/tjenester">Tjenester</a><a href="${WWW}/leverandorer">Leverandører</a><a href="${WWW}/artikler">Artikler</a><a href="${WWW}/kontakt-oss">Kontakt</a></nav>
-  <a class="hd-cta" href="${WWW}/tilbud">Tilbudslisten</a>
-</div></header>
+<header class="hd" id="hd">
+  <a class="logo" href="${WWW}/"><img src="${LOGO}" alt="Fuglesangs Tech" width="255" height="79"></a>
+  <nav class="hd-nav" aria-label="Hovedmeny">
+    <a href="${WWW}/produkter">Produkter</a><a href="${WWW}/tjenester">Tjenester</a><a href="${WWW}/leverandorer">Leverandører</a><a href="${WWW}/artikler">Artikler</a>
+    <div class="hd-folder"><button type="button" aria-expanded="false" aria-controls="hd-om">Om oss<svg viewBox="0 0 22 22" aria-hidden="true"><path d="M5 13.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      <div class="hd-dd" id="hd-om"><a href="${WWW}/om-oss">Om oss</a><a href="${WWW}/vre-ansatte">Ansatte</a><a href="${WWW}/kontakt-oss">Kontakt</a></div></div>
+  </nav>
+  <div class="hd-right"><a href="/search" class="fts-btn" aria-label="Søk i produkter og sider">${SOK_IKON}<span class="fts-t">Søk</span><span class="fts-k" aria-hidden="true" title="Trykk / for å søke">/</span></a></div>
+  <div class="hd-mob"><a href="/search" class="fts-btn fts-mob" aria-label="Søk i produkter og sider">${SOK_IKON}</a>
+    <button type="button" class="hd-burger header-burger-btn" aria-label="Åpne menyen" aria-expanded="false" aria-controls="hd-meny"><span></span><span></span></button></div>
+</header>
+<div class="hd-meny" id="hd-meny" hidden>
+  <nav class="m1"><a href="${WWW}/produkter">Produkter</a><a href="${WWW}/tjenester">Tjenester</a><a href="${WWW}/leverandorer">Leverandører</a><a href="${WWW}/artikler">Artikler</a><button type="button" class="m-om">Om oss<svg viewBox="0 0 22 22" aria-hidden="true"><path d="M8 4l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button></nav>
+  <nav class="m2" hidden><button type="button" class="m-tilbake"><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M14 4l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Tilbake</button><a href="${WWW}/om-oss">Om oss</a><a href="${WWW}/vre-ansatte">Ansatte</a><a href="${WWW}/kontakt-oss">Kontakt</a></nav>
+</div>
 <main class="wrap">
 ${o.innhold}
 </main>
-<footer class="ft"><div class="wrap">
-  <div><b>Fuglesangs Tech AS</b><br>Organisasjonsnr. 985 081 220<br>Caspar Storms vei 21, 0664 Oslo<br>Tlf. <a href="tel:+4722542000">22 54 20 00</a> (man–fre 08:00–16:00)<br><a href="mailto:post@fuglesangstech.no">post@fuglesangstech.no</a></div>
-  <div><b>Fuglesangs Tech er en del av Fuglesangs-gruppen</b><br><a href="${WWW}/om-oss">Om oss</a> · <a href="${WWW}/vre-ansatte">Våre ansatte</a> · <a href="${WWW}/datablad">Datablad</a> · <a href="${WWW}/personvern">Personvern</a></div>
-</div></footer>
+<footer class="ft">
+  <div class="ft-c1"><h4>Fuglesangs Tech AS</h4><p>Organisasjonsnr. 985 081 220<br>Caspar Storms vei 21, 0664 Oslo<br>Tlf: <a href="tel:22542000">22 54 20 00</a> (man-fre 08:00-16:00)<br>Etter 16:00: <a href="tel:91542002">915 42 002</a></p></div>
+  <div class="ft-c2"><p>Fuglesangs Tech er en del av Fuglesangs-gruppen:</p><p class="grp"><a href="https://www.fuglesangs.no/nb/">Fuglesangs AS</a><br><a href="https://www.fsubsea.com/">FSubsea AS</a><br><a href="https://www.flocean.green/">Flocean AS</a></p></div>
+  <div class="ft-c3"><div class="soc">
+    <a href="https://www.linkedin.com/company/fuglesangs-tech/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M6.94 8.5H3.56V20h3.38V8.5zM5.25 3.5a1.96 1.96 0 1 0 0 3.92 1.96 1.96 0 0 0 0-3.92zM20.44 13.3c0-3.1-1.66-4.55-3.87-4.55-1.78 0-2.58.98-3.03 1.67V8.5h-3.38c.05.95 0 11.5 0 11.5h3.38v-6.42c0-.34.02-.69.13-.93.27-.69.89-1.4 1.94-1.4 1.37 0 1.92 1.05 1.92 2.58V20h3.38l-.47-6.7z" fill="currentColor"/></svg></a>
+    <a href="https://www.instagram.com/fuglesangs_tech/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg></a>
+    <a href="https://www.facebook.com/profile.php?id=61581818741869" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M13.4 21v-7.6h2.6l.4-3h-3V8.5c0-.86.24-1.45 1.48-1.45h1.58V4.37a21 21 0 0 0-2.3-.12c-2.28 0-3.84 1.39-3.84 3.95v2.2H7.73v3h2.59V21h3.08z" fill="currentColor"/></svg></a>
+  </div><p class="pv"><a href="${WWW}/personvern">Personvern</a></p></div>
+</footer>
+<button type="button" class="ftx-totop" aria-label="Til toppen av siden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<script>window.FT_SOK = { www: '${WWW}', data: '${o.rel}assets/sok.json', produkt: '${o.rel}{id}/' };</script>
+<script src="https://fuglesangstech.github.io/fuglesangstech-datablad/nett/sok.js"></script>
+<script src="${o.rel}assets/ramme.js?v=${CSSV}"></script>
 </body>
 </html>
 `;
@@ -214,6 +235,9 @@ P.forEach(p => { const ny = skriv(p.id + '/index.html', produktside(p)); const u
 LASTMOD[BASE] = skriv('index.html', oversikt()) || !FORRIGE[BASE] ? IDAG : FORRIGE[BASE];
 skriv('404.html', ramme({ tittel: 'Fant ikke siden | Fuglesangs Tech', beskr: 'Siden finnes ikke.', rel: '/', noindex: true, innhold: `<h1>Fant ikke produktet</h1><p class="lead">Produktet kan ha fått ny adresse eller er tatt ut av sortimentet.</p><div class="cta"><a class="btn" href="${WWW}/produkter">Gå til produktkatalogen</a><a class="btn alt" href="/">Alle produkter</a></div>` }));
 skriv('assets/side.css', CSS);
+skriv('assets/ramme.js', RAMME_JS);
+// søkeindeks i samme format som søket på www: [id, navn, leverandør, kategori, bilde, beskrivelse, lenke, egenskaper]
+skriv('assets/sok.json', JSON.stringify(P.map(p => [p.id, p.navn, lev(p).navn, p.kat, (p.bilder || [])[0] || '', kutt(p.short || (p.paras || [])[0] || '', 160), '', (p.eg || []).join('|') + '|' + (p.code || '') + '|' + p.varianter.map(v => v.no + ' ' + (v.grade || '')).join(' ')])));
 const urls = [BASE].concat(P.filter(p => !EGNE[p.id]).map(sideUrl));
 skriv('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map(u => `<url><loc>${esc(u)}</loc><lastmod>${LASTMOD[u] || IDAG}</lastmod></url>`).join('\n') + '\n</urlset>\n');
 skriv('robots.txt', PROD ? `User-agent: *\nAllow: /\n\nSitemap: ${BASE}sitemap.xml\n` : 'User-agent: *\nDisallow: /\n');

@@ -11,15 +11,36 @@ img { max-width: 100%; display: block; }
 .wrap { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
 .fv { background: var(--orange); color: #fff; text-align: center; font-size: 14px; font-weight: 600; padding: 6px 16px; }
 
-/* topp */
-.hd { border-bottom: 1px solid var(--line); background: #fff; position: sticky; top: 0; z-index: 10; }
-.hd .wrap { display: flex; align-items: center; gap: 32px; min-height: 84px; }
-.hd .logo img { width: 210px; height: auto; }
-.hd nav { display: flex; gap: 24px; flex: 1; }
-.hd nav a { text-decoration: none; color: var(--navy); font-size: 18px; }
-.hd nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
-.hd-cta { text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 9px 18px; font-weight: 600; font-size: 15px; }
-.hd-cta:hover { border-color: var(--navy); }
+/* topp – lik toppmenyen på www.fuglesangstech.no */
+.hd { position: sticky; top: 0; z-index: 1000; display: flex; align-items: center; padding: .7vw 4vw; min-height: 97px; background: #fff; box-shadow: 0 10px 28px -18px rgba(5, 43, 105, .45); font-family: Arial, Helvetica, sans-serif; transition: background-color .3s, box-shadow .3s; }
+html.ftx-scrolled .hd { background: rgba(255, 255, 255, .86); -webkit-backdrop-filter: saturate(160%) blur(12px); backdrop-filter: saturate(160%) blur(12px); }
+.hd .logo img { width: 255px; height: auto; }
+.hd-nav { display: flex; align-items: center; gap: 19px; margin-left: 6.7vw; flex: 1; }
+.hd-nav > a, .hd-folder > button { font: 400 19px/1.2 Arial, Helvetica, sans-serif; letter-spacing: -.02em; color: #083067; text-decoration: none; padding: 1.9px 0; background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.hd-nav > a:hover, .hd-folder > button:hover { opacity: .8; }
+.hd-folder { position: relative; }
+.hd-folder svg { width: 20px; height: 20px; transform: rotate(180deg); transition: transform .15s; }
+.hd-folder.open svg, .hd-folder:hover svg { transform: none; }
+.hd-dd { position: absolute; left: -20px; top: 100%; min-width: 238px; padding: 6px 20px 18px; background: #fff; display: none; flex-direction: column; gap: 6px; }
+.hd-folder:hover .hd-dd, .hd-folder.open .hd-dd { display: flex; }
+.hd-dd a { font: 400 19px/1.2 Arial, Helvetica, sans-serif; letter-spacing: -.02em; color: #083067; text-decoration: none; }
+.hd-dd a:hover { opacity: .8; }
+.hd-right { display: flex; align-items: center; margin-left: 24px; }
+.hd-mob { display: none; align-items: center; margin-left: auto; }
+.hd-burger { width: 47px; height: 37px; border: 0; background: none; cursor: pointer; position: relative; padding: 0; }
+.hd-burger span { position: absolute; left: 6px; width: 35px; height: 1px; background: #083067; transition: transform .25s, top .25s; }
+.hd-burger span:first-child { top: 12px; } .hd-burger span:last-child { top: 23px; }
+.hd-burger[aria-expanded="true"] span:first-child { top: 18px; transform: rotate(45deg); width: 28px; left: 9px; }
+.hd-burger[aria-expanded="true"] span:last-child { top: 18px; transform: rotate(-45deg); width: 28px; left: 9px; }
+.hd-meny { position: fixed; inset: 0; z-index: 999; background: #fff; display: flex; align-items: center; justify-content: center; padding: 100px 6vw 40px; }
+.hd-meny[hidden] { display: none; }
+.hd-meny nav { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.hd-meny nav[hidden] { display: none; }
+.hd-meny a, .hd-meny button { font: 400 32px/1.25 Arial, Helvetica, sans-serif; color: #19223f; text-decoration: none; background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 14px; }
+.hd-meny svg { width: 24px; height: 24px; }
+html.hd-apen { overflow: hidden; }
+/* søkeknappen (samme som på www; stilen lastes med søket) */
+a.fts-btn { text-decoration: none; }
 
 /* felles */
 main.wrap { padding-top: 36px; padding-bottom: 72px; }
@@ -104,20 +125,43 @@ td.q a { font-weight: 600; font-size: 15px; }
 .liste li { break-inside: avoid; padding: 3px 0; font-size: 16px; }
 .liste em { color: #9a3412; font-size: 13px; font-style: normal; }
 
-/* bunn */
-.ft { background: var(--navy); color: #fff; margin-top: 40px; }
-.ft .wrap { display: flex; flex-wrap: wrap; gap: 28px 64px; padding-top: 44px; padding-bottom: 48px; font-size: 16px; line-height: 1.7; }
-.ft a { color: #fff; }
+/* bunn – lik bunnteksten på www.fuglesangstech.no */
+.ft { background: #083067; color: #fff; margin-top: 40px; display: grid; grid-template-columns: 37.5% 29.2% 1fr; column-gap: 0; align-items: start; padding: 26px 4vw 30px; font: 400 19px/28.5px Arial, Helvetica, sans-serif; }
+.ft h4 { font: 400 28.36px/1.17 Arial, Helvetica, sans-serif; color: #fff; margin: 0 0 18px; }
+.ft p { margin: 0; }
+.ft a { color: #fff; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.ft-c2 { max-width: 349px; }
+.ft-c2 .grp { margin-top: 19px; }
+.ft-c3 { justify-self: end; width: 16.6vw; min-width: 199px; margin-right: 3.8vw; }
+.ft-c3 { text-align: center; padding-top: 25px; }
+.ft-c3 .soc { display: flex; justify-content: center; gap: 10px; }
+.ft-c3 .soc a { width: 36px; height: 36px; border: 1px solid #fff; border-radius: 3px; display: grid; place-items: center; }
+.ft-c3 .soc svg { width: 20px; height: 20px; color: #fff; }
+.ft-c3 .pv { margin-top: 46px; }
+.ftx-totop { position: fixed; right: 20px; bottom: 22px; z-index: 990; width: 46px; height: 46px; border-radius: 50%; border: 1px solid #d6dbe2; background: #fff; color: #052b69; display: grid; place-items: center; cursor: pointer; box-shadow: 0 12px 26px -14px rgba(3, 22, 56, .55); opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s; }
+.ftx-totop.vis { opacity: 1; transform: none; pointer-events: auto; }
+.ftx-totop:hover { border-color: #052b69; }
+.ftx-totop svg { width: 20px; height: 20px; }
 
-@media (max-width: 960px) { .hd nav { display: none; } }
+@media (max-width: 767px) {
+  .hd { min-height: 0; padding: 31px 6vw; }
+  .hd .logo img { width: 97px; }
+  .hd-nav, .hd-right { display: none; }
+  .hd-mob { display: flex; }
+  .hd-mob a.fts-btn.fts-mob { margin-right: 13px !important; }
+  .ft { grid-template-columns: 1fr; padding: 60px 6vw 40px; row-gap: 0; font-size: 16px; line-height: 24px; }
+  .ft h4 { font-size: 20px; margin-bottom: 14px; }
+  .ft-c1 { order: 1; } .ft-c3 { order: 2; padding-top: 10px; justify-self: stretch; width: auto; margin-right: 0; }
+  .ft-c2 { max-width: none; } .ft-c2 { order: 3; margin-top: 30px; }
+  .ft-c3 .soc { justify-content: flex-end; }
+  .ft-c3 .pv { margin-top: 14px; }
+}
 @media (max-width: 860px) {
   .prod { grid-template-columns: 1fr; gap: 20px; }
   .gal { position: static; max-width: 420px; }
 }
 @media (max-width: 640px) {
   .wrap, main { padding-left: 16px; padding-right: 16px; }
-  .hd .wrap { min-height: 64px; gap: 12px; justify-content: space-between; }
-  .hd .logo img { width: 160px; }
   main.wrap { padding-top: 24px; }
   .body p { font-size: 17px; }
   .docs a { flex-direction: column; gap: 2px; }
