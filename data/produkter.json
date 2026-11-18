@@ -1,5 +1,5 @@
 {
- "hentet": "2026-11-17T15:11:44.484Z",
+ "hentet": "2026-11-18",
  "produkter": [
   {
    "id": "601",
@@ -47969,49 +47969,56 @@
    "navn": "Chesterton",
    "kort": "",
    "side": "/chesterton-1",
-   "sole": "Fuglesangs-gruppen er eneleverandør av Chesterton i Norge."
+   "sole": "Fuglesangs-gruppen er eneleverandør av Chesterton i Norge.",
+   "logo": "https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6185b/c66f4f29-4ea6-49cc-8951-f95a7799c931/Chesterton+logo+-+usynlig.png?format=300w"
   },
   {
    "key": "le",
    "navn": "Lubrication Engineers",
    "kort": "LE",
    "side": "/le-about",
-   "sole": "Fuglesangs Tech er eneleverandør av Lubrication Engineers (LE) i Norge."
+   "sole": "Fuglesangs Tech er eneleverandør av Lubrication Engineers (LE) i Norge.",
+   "logo": "https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6185b/ef369295-5d89-496e-b9f0-aa65c2cd6f3a/LE+logo.png?format=300w"
   },
   {
    "key": "utb",
    "navn": "UTB",
    "kort": "",
    "side": "/utb",
-   "sole": "Fuglesangs Tech er eneleverandør av UTB i Norge."
+   "sole": "Fuglesangs Tech er eneleverandør av UTB i Norge.",
+   "logo": "https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6185b/d191b609-7c57-4766-a6c2-3b50cf46df4e/UTB+-+usynlig.png?format=300w"
   },
   {
    "key": "vik",
    "navn": "Vickers Oils",
    "kort": "Vickers Oils",
    "side": "/vickers-oils",
-   "sole": "Fuglesangs Tech er leverandør av Vickers Oils på land i Norge."
+   "sole": "Fuglesangs Tech er leverandør av Vickers Oils på land i Norge.",
+   "logo": "https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6185b/f528d4c4-171e-48fa-9a9e-4b2ae6857213/Logo+Vickers.png?format=300w"
   },
   {
    "key": "perma",
    "navn": "Perma-Tec",
    "kort": "Perma-Tec",
    "side": "/perma-tec",
-   "sole": "Fuglesangs Tech er leverandør av perma-smøresystemer, fylt med eget fett."
+   "sole": "Fuglesangs Tech er leverandør av perma-smøresystemer, fylt med eget fett.",
+   "logo": "https://fuglesangstech.github.io/fuglesangstech-datablad/leverandorer/perma/perma-logo.png"
   },
   {
    "key": "rpi",
    "navn": "Royal Purple Industrial",
    "kort": "Royal Purple",
    "side": "/royal-purple-industrial",
-   "sole": "Fuglesangs Tech er eneleverandør av Royal Purple Industrial på land i Norge."
+   "sole": "Fuglesangs Tech er eneleverandør av Royal Purple Industrial på land i Norge.",
+   "logo": "https://images.squarespace-cdn.com/content/v1/677e40c5efe7602e25c6185b/b34f480e-8743-4438-a267-130ab7cc8540/RP_ind.png?format=300w"
   },
   {
    "key": "biomax",
    "navn": "BioMax",
    "kort": "BioMax",
    "side": "/biomax",
-   "sole": "Fuglesangs Tech er eneleverandør av BioMax på land i Norge. BioMax er den miljøtilpassede serien fra Royal Purple Industrial."
+   "sole": "Fuglesangs Tech er eneleverandør av BioMax på land i Norge. BioMax er den miljøtilpassede serien fra Royal Purple Industrial.",
+   "logo": "https://fuglesangstech.github.io/fuglesangstech-datablad/leverandorer/biomax/biomax-logo.png"
   }
  ],
  "egneSider": {}

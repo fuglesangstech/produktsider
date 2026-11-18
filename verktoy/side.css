@@ -120,6 +120,8 @@ td.q a { font-weight: 600; font-size: 15px; }
 .flere-dok .docs { margin-top: 8px; }
 .gal.tom .hoved { aspect-ratio: 1; display: grid; place-items: center; align-content: center; gap: 10px; }
 .gal.tom .plass { width: 46%; height: auto; }
+.gal.tom img.ph { width: 50%; height: auto; opacity: .35; }
+.flere img.phl { opacity: .35; padding: 8px; }
 .gal.tom p { color: var(--muted); font-size: 15px; }
 .flere .ph svg { width: 64px; height: 64px; }
 

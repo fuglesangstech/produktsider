@@ -46,7 +46,7 @@ function splice(live, NEW) {   // bytt ut kodeblokken på siden med lokal kode (
       if (x.utgatt) o.utgatt = { tekst: x.utgatt.tekst, merknad: x.utgatt.merknad || '', alt: (x.utgatt.alt || []).map(a => ({ id: a.p.id, navn: a.p.navn, hvorfor: a.hvorfor || '' })) };
       return o;
     });
-    const lev = K.leverandorer().map(s => ({ key: s.key, navn: s.navn, kort: s.kort || '', side: s.side || '', sole: s.sole || '' }));
+    const lev = K.leverandorer().map(s => ({ key: s.key, navn: s.navn, kort: s.kort || '', side: s.side || '', sole: s.sole || '', logo: s.logo || '' }));
     return { hentet: new Date().toISOString(), produkter: prod, leverandorer: lev, egneSider: K.egneSider ? K.egneSider() : {} };
   });
   await b.close();

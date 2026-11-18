@@ -170,7 +170,7 @@ function produktside(p) {
   const faq = (T.faq || []).length ? `<section class="sec"><h2>Spørsmål og svar</h2><div class="faq">${T.faq.map(f => `<details><summary>${esc(f[0])}</summary><p>${esc(f[1])}</p></details>`).join('')}</div></section>` : '';
   const egen = EGNE[p.id] ? `<p class="egen">Les mer om ${esc(navn)} – bruk, forskjeller og spørsmål – på <a href="${WWW}${esc(EGNE[p.id])}">fuglesangstech.no</a>.</p>` : '';
   const bilder = p.bilder || [];
-  const galleri = bilder.length ? `<div class="gal"><div class="hoved"><img id="gal-img" src="${esc(bilder[0])}" alt="${esc(navn)}" width="560" height="560"></div>${bilder.length > 1 ? `<div class="tn">${bilder.map((b, i) => `<button type="button" data-src="${esc(b)}"${i ? '' : ' aria-current="true"'}><img src="${esc(b)}" alt="" width="72" height="72" loading="lazy"></button>`).join('')}</div>` : ''}</div>` : `<div class="gal tom"><div class="hoved">${PLASS}<p>Bilde kommer</p></div></div>`;
+  const galleri = bilder.length ? `<div class="gal"><div class="hoved"><img id="gal-img" src="${esc(bilder[0])}" alt="${esc(navn)}" width="560" height="560"></div>${bilder.length > 1 ? `<div class="tn">${bilder.map((b, i) => `<button type="button" data-src="${esc(b)}"${i ? '' : ' aria-current="true"'}><img src="${esc(b)}" alt="" width="72" height="72" loading="lazy"></button>`).join('')}</div>` : ''}</div>` : `<div class="gal tom"><div class="hoved">${l.logo ? `<img class="ph" src="${esc(l.logo)}" alt="${esc(l.navn)}" width="300" height="150">` : PLASS}</div></div>`;
   const beskr = kutt(`${navn}: ${tekst[0] || p.kat}`, 158);
   const ld = [
     // Ingen Product-data: Google krever pris eller omtaler for produktutdrag, og uten dem melder Search Console feil på alle sidene.
@@ -206,7 +206,7 @@ ${resHtml}
 ${fyllListe(p)}
 <section class="sec"><h2>Om ${esc(l.navn)}</h2><p>${esc(l.sole)} ${l.side ? `<a href="${WWW}${esc(l.side)}">Les mer om ${esc(l.kort || l.navn)} →</a>` : ''}</p></section>
 ${kontakt}
-${flere.length ? `<section class="sec"><h2>Flere produkter i ${esc(p.kat.toLowerCase())}</h2><ul class="flere">${flere.map(x => `<li><a href="${rel}${encodeURIComponent(x.id)}/">${x.bilder && x.bilder[0] ? `<img src="${esc(x.bilder[0])}" alt="" width="64" height="64" loading="lazy">` : `<span class="ph">${PLASS}</span>`}<span><b>${esc(merke(x))}</b><small>${esc(kutt(x.short || (x.paras || [])[0] || '', 90))}</small></span></a></li>`).join('')}</ul></section>` : ''}
+${flere.length ? `<section class="sec"><h2>Flere produkter i ${esc(p.kat.toLowerCase())}</h2><ul class="flere">${flere.map(x => `<li><a href="${rel}${encodeURIComponent(x.id)}/">${x.bilder && x.bilder[0] ? `<img src="${esc(x.bilder[0])}" alt="" width="64" height="64" loading="lazy">` : (lev(x).logo ? `<img class="phl" src="${esc(lev(x).logo)}" alt="" width="64" height="64" loading="lazy">` : `<span class="ph">${PLASS}</span>`)}<span><b>${esc(merke(x))}</b><small>${esc(kutt(x.short || (x.paras || [])[0] || '', 90))}</small></span></a></li>`).join('')}</ul></section>` : ''}
 <script>
 (function () {
   var g = document.querySelector('.gal .tn'); if (!g) return;
