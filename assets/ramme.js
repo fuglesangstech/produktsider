@@ -1,9 +1,9 @@
 /* Toppmeny og bunn på produktsidene – oppfører seg som på www.fuglesangstech.no */
 (function () {
   var root = document.documentElement;
-  // toppmenyen blir gjennomsiktig med uskarp bakgrunn når siden rulles, «til toppen»-knappen vises
+  // som på www: toppmenyen glir bort så snart siden rulles, og kommer tilbake helt øverst; «til toppen»-knappen vises
   var top = document.querySelector('.ftx-totop');
-  function rull() { var y = window.scrollY > 8; root.classList.toggle('ftx-scrolled', y); if (top) top.classList.toggle('vis', window.scrollY > 700); }
+  function rull() { root.classList.toggle('hd-skjult', window.scrollY > 0); if (top) top.classList.toggle('vis', window.scrollY > 700); }
   window.addEventListener('scroll', rull, { passive: true }); rull();
   if (top) top.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
   // «Om oss» i toppmenyen (klikk og tastatur; mus åpner med hover)

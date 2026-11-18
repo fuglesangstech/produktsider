@@ -12,8 +12,10 @@ img { max-width: 100%; display: block; }
 .fv { background: var(--orange); color: #fff; text-align: center; font-size: 14px; font-weight: 600; padding: 6px 16px; }
 
 /* topp – lik toppmenyen på www.fuglesangstech.no */
-.hd { position: sticky; top: 0; z-index: 1000; display: flex; align-items: center; padding: .7vw 4vw; min-height: 97px; background: #fff; box-shadow: 0 10px 28px -18px rgba(5, 43, 105, .45); font-family: Arial, Helvetica, sans-serif; transition: background-color .3s, box-shadow .3s; }
-html.ftx-scrolled .hd { background: rgba(255, 255, 255, .86); -webkit-backdrop-filter: saturate(160%) blur(12px); backdrop-filter: saturate(160%) blur(12px); }
+.hd { position: sticky; top: 0; z-index: 1000; display: flex; align-items: center; padding: .7vw max(4vw, calc((100% - 1400px) / 2)); min-height: 97px; background: #fff; box-shadow: 0 10px 28px -18px rgba(5, 43, 105, .45); font-family: Arial, Helvetica, sans-serif; transition: transform .14s ease-in-out; }
+/* som på www: toppmenyen glir bort når siden rulles, og kommer tilbake helt øverst */
+html.hd-skjult .hd { transform: translateY(-100%); box-shadow: none; }
+html.hd-apen .hd { transform: none; }
 .hd .logo img { width: 255px; height: auto; }
 .hd-nav { display: flex; align-items: center; gap: 19px; margin-left: 6.7vw; flex: 1; }
 .hd-nav > a, .hd-folder > button { font: 400 19px/1.2 Arial, Helvetica, sans-serif; letter-spacing: -.02em; color: #083067; text-decoration: none; padding: 1.9px 0; background: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
@@ -126,13 +128,13 @@ td.q a { font-weight: 600; font-size: 15px; }
 .liste em { color: #9a3412; font-size: 13px; font-style: normal; }
 
 /* bunn – lik bunnteksten på www.fuglesangstech.no */
-.ft { background: #083067; color: #fff; margin-top: 40px; display: grid; grid-template-columns: 37.5% 29.2% 1fr; column-gap: 0; align-items: start; padding: 26px 4vw 30px; font: 400 19px/28.5px Arial, Helvetica, sans-serif; }
-.ft h4 { font: 400 28.36px/1.17 Arial, Helvetica, sans-serif; color: #fff; margin: 0 0 18px; }
+.ft { background: #083067; color: #fff; margin-top: 40px; display: grid; grid-template-columns: 37.5% 29.2% 12.5% 16.6% 4.2%; column-gap: 0; align-items: start; padding: 26px max(4vw, calc((100% - 1400px) / 2)) 30px; font: 400 19px/28.5px Arial, Helvetica, sans-serif; }
+.ft h4 { font: 400 clamp(28.36px, 1.58vw, 30.4px)/1.17 Arial, Helvetica, sans-serif; color: #fff; margin: 0 0 18px; }
 .ft p { margin: 0; }
 .ft a { color: #fff; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .ft-c2 { max-width: 349px; }
 .ft-c2 .grp { margin-top: 19px; }
-.ft-c3 { justify-self: end; width: 16.6vw; min-width: 199px; margin-right: 3.8vw; }
+.ft-c3 { grid-column: 4; }
 .ft-c3 { text-align: center; padding-top: 25px; }
 .ft-c3 .soc { display: flex; justify-content: center; gap: 10px; }
 .ft-c3 .soc a { width: 36px; height: 36px; border: 1px solid #fff; border-radius: 3px; display: grid; place-items: center; }
@@ -151,7 +153,7 @@ td.q a { font-weight: 600; font-size: 15px; }
   .hd-mob a.fts-btn.fts-mob { margin-right: 13px !important; }
   .ft { grid-template-columns: 1fr; padding: 60px 6vw 40px; row-gap: 0; font-size: 16px; line-height: 24px; }
   .ft h4 { font-size: 20px; margin-bottom: 14px; }
-  .ft-c1 { order: 1; } .ft-c3 { order: 2; padding-top: 10px; justify-self: stretch; width: auto; margin-right: 0; }
+  .ft-c1 { order: 1; } .ft-c3 { order: 2; padding-top: 10px; grid-column: auto; }
   .ft-c2 { max-width: none; } .ft-c2 { order: 3; margin-top: 30px; }
   .ft-c3 .soc { justify-content: flex-end; }
   .ft-c3 .pv { margin-top: 14px; }
