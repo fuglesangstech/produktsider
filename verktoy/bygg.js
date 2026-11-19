@@ -116,7 +116,7 @@ ${o.innhold}
 </footer>
 <button type="button" class="ftx-totop" aria-label="Til toppen av siden"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 <script>window.FT_SOK = { www: '${WWW}', data: '${o.rel}assets/sok.json', produkt: '${o.rel}{id}/' };</script>
-<script src="https://fuglesangstech.github.io/fuglesangstech-datablad/nett/sok.js"></script>
+<script src="https://datablad.fuglesangstech.no/nett/sok.js"></script>
 <script src="${o.rel}assets/ramme.js?v=${CSSV}"></script>
 </body>
 </html>
@@ -243,7 +243,10 @@ ${grupper.map(l => {
 
 /* ---------- skriv filer ---------- */
 let endret = 0;
+// Datablad og filer ligger på datablad.fuglesangstech.no (fra 19.11.2026). Katalogen kan fortsatt gi den gamle GitHub-adressen.
+const GH_GAMMEL = /https:\/\/fuglesangstech\.github\.io\/fuglesangstech-datablad\//g;
 function skriv(rel, innhold) {
+  if (typeof innhold === 'string') innhold = innhold.replace(GH_GAMMEL, 'https://datablad.fuglesangstech.no/');
   const f = path.join(ROT, rel); fs.mkdirSync(path.dirname(f), { recursive: true });
   let gml = null; try { gml = fs.readFileSync(f, 'utf8'); } catch (e) {}
   if (gml === innhold) return false;
