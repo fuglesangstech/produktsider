@@ -58,6 +58,15 @@ function splice(live, NEW) {   // bytt ut kodeblokken på siden med lokal kode (
     process.exit(2);
   }
   data.hentet = data.hentet.slice(0, 10);
+  // Fuglesangs Techs egne produkter (id som begynner med «ft-», f.eks. Håndholdt Mikroskop) står ikke i katalogen på /produkter.
+  // De legges inn for hånd i data/produkter.json og tas vare på her, så den ukentlige oppdateringen ikke fjerner sidene deres.
+  try {
+    const gd = JSON.parse(fs.readFileSync(ut, 'utf8'));
+    const har = new Set(data.produkter.map(p => p.id));
+    for (const p of gd.produkter || []) if (/^ft-/.test(p.id) && !har.has(p.id)) data.produkter.push(p);
+    const lh = new Set((data.leverandorer || []).map(l => l.key));
+    for (const l of gd.leverandorer || []) if (l.key === 'ft' && !lh.has('ft')) (data.leverandorer = data.leverandorer || []).push(l);
+  } catch (e) {}
   fs.writeFileSync(ut, JSON.stringify(data, null, 1));
   console.log('Hentet ' + data.produkter.length + ' produkter → ' + ut);
 })().catch(e => { console.error('FEIL:', e.message); process.exit(1); });
